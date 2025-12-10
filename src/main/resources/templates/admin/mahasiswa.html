@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Mahasiswa - Admin Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#38bdf8',
+            'primary-dark': '#0ea5e9',
+            sidebar: '#1a1a1a',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .sidebar-item:hover { background-color: #e5e7eb; }
+    .sidebar-item.active { background-color: #38bdf8; color: white; }
+    .modal { display: none; }
+    .modal.show { display: flex; }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <!-- Sidebar -->
+  <aside id="sidebar" class="fixed left-0 top-0 h-full w-48 bg-white text-gray-800 z-50 transform -translate-x-full transition-transform duration-300 shadow-lg border-r border-gray-200">
+    <div class="p-4 border-b border-gray-200 flex items-center justify-between">
+      <h1 class="text-lg font-bold text-gray-800">Welcome to<br>Admin Portal!</h1>
+      <button onclick="toggleSidebar()" class="p-1 rounded hover:bg-gray-200">
+        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <nav class="mt-4">
+      <a href="index.html" class="sidebar-item block px-4 py-3 rounded mx-2 mb-1">Dashboard</a>
+      
+      <div class="mx-2 mb-1">
+        <button onclick="toggleDropdown('datapengguna')" class="sidebar-item active w-full text-left px-4 py-3 rounded flex justify-between items-center">
+          Data Pengguna
+          <svg id="datapengguna-arrow" class="w-4 h-4 transition-transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+        <div id="datapengguna-dropdown" class="ml-4 mt-1">
+          <a href="dosen.html" class="sidebar-item block px-4 py-2 rounded mb-1 text-sm">Dosen</a>
+          <a href="mahasiswa.html" class="sidebar-item active block px-4 py-2 rounded mb-1 text-sm">Mahasiswa</a>
+        </div>
+      </div>
+      
+      <a href="kelas.html" class="sidebar-item block px-4 py-3 rounded mx-2 mb-1">Kelas</a>
+      <a href="mata-kuliah.html" class="sidebar-item block px-4 py-3 rounded mx-2 mb-1">Mata Kuliah</a>
+    </nav>
+  </aside>
+
+  <!-- Overlay -->
+  <div id="overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+
+  <!-- Menu button always visible -->
+  <button onclick="toggleSidebar()" class="fixed top-4 left-4 z-30 bg-primary p-2 rounded text-white shadow-lg">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+    </svg>
+  </button>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Header -->
+    <header class="bg-primary text-white px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3 ml-14">
+        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="7" height="18" rx="1"></rect>
+          <rect x="14" y="3" width="7" height="10" rx="1"></rect>
+        </svg>
+        <span class="text-xl font-semibold">MAHASISWA</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <button class="relative">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+          </svg>
+        </button>
+        <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+          <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+          </svg>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="p-6">
+      <!-- Title and Actions -->
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+        <h2 class="text-xl font-semibold">DATA MAHASISWA</h2>
+        <div class="flex flex-col sm:flex-row gap-2">
+          <button onclick="openModal('tambahModal')" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded text-sm">
+            Tambah Mahasiswa
+          </button>
+          <button onclick="toggleEditMode()" id="editBtn" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded text-sm">
+            Edit Mahasiswa
+          </button>
+        </div>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="flex gap-2 mb-6">
+        <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Cari mahasiswa..." class="flex-1 max-w-md px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary">
+        <button class="bg-white p-2 rounded border border-gray-300">
+          <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Table -->
+      <div class="bg-white rounded-lg shadow overflow-x-auto">
+        <table class="w-full" id="mahasiswaTable">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">ID</th>
+              <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">Nama</th>
+              <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">NPM</th>
+              <th class="px-4 py-3 text-left text-sm font-medium text-gray-600 edit-col hidden">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="mahasiswaTableBody">
+            <tr class="border-t hover:bg-gray-50">
+              <td class="px-4 py-3 text-sm">1</td>
+              <td class="px-4 py-3 text-sm">Keenan</td>
+              <td class="px-4 py-3 text-sm">41092348917032</td>
+              <td class="px-4 py-3 text-sm edit-col hidden">
+                <div class="flex gap-2">
+                  <button onclick="editMahasiswa(1, 'Keenan', '41092348917032', 'keenan@student.unpar.ac.id')" class="bg-primary text-white px-2 py-1 rounded text-xs">EDIT</button>
+                  <button onclick="deleteMahasiswa(1)" class="bg-red-500 text-white px-2 py-1 rounded text-xs">DELETE</button>
+                </div>
+              </td>
+            </tr>
+            <tr class="border-t hover:bg-gray-50">
+              <td class="px-4 py-3 text-sm">2</td>
+              <td class="px-4 py-3 text-sm">Raymond</td>
+              <td class="px-4 py-3 text-sm">52394564354376</td>
+              <td class="px-4 py-3 text-sm edit-col hidden">
+                <div class="flex gap-2">
+                  <button onclick="editMahasiswa(2, 'Raymond', '52394564354376', 'raymond@student.unpar.ac.id')" class="bg-primary text-white px-2 py-1 rounded text-xs">EDIT</button>
+                  <button onclick="deleteMahasiswa(2)" class="bg-red-500 text-white px-2 py-1 rounded text-xs">DELETE</button>
+                </div>
+              </td>
+            </tr>
+            <tr class="border-t hover:bg-gray-50">
+              <td class="px-4 py-3 text-sm">3</td>
+              <td class="px-4 py-3 text-sm">Pascal</td>
+              <td class="px-4 py-3 text-sm">53422035425657</td>
+              <td class="px-4 py-3 text-sm edit-col hidden">
+                <div class="flex gap-2">
+                  <button onclick="editMahasiswa(3, 'Pascal', '53422035425657', 'pascal@student.unpar.ac.id')" class="bg-primary text-white px-2 py-1 rounded text-xs">EDIT</button>
+                  <button onclick="deleteMahasiswa(3)" class="bg-red-500 text-white px-2 py-1 rounded text-xs">DELETE</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Tambah Modal -->
+  <div id="tambahModal" class="modal fixed inset-0 bg-black bg-opacity-50 z-50 items-center justify-center p-4">
+    <div class="bg-gray-200 rounded-lg w-full max-w-md p-6">
+      <h3 class="text-xl font-semibold mb-6">TAMBAH MAHASISWA</h3>
+      <form onsubmit="submitTambah(event)">
+        <div class="mb-4">
+          <label class="block text-sm font-medium mb-1">NAMA</label>
+          <input type="text" id="tambahNama" required class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary">
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm font-medium mb-1">NPM</label>
+          <input type="text" id="tambahNpm" required class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary">
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm font-medium mb-1">EMAIL</label>
+          <input type="email" id="tambahEmail" required class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary">
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm font-medium mb-1">PASSWORD</label>
+          <input type="password" id="tambahPassword" required class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary">
+        </div>
+        <div class="mb-6">
+          <label class="flex items-center gap-2 cursor-pointer border border-dashed border-gray-400 rounded p-3 justify-center">
+            <span>UPLOAD CSV</span>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+            </svg>
+            <input type="file" accept=".csv" class="hidden">
+          </label>
+        </div>
+        <div class="flex gap-2 justify-end">
+          <button type="button" onclick="closeModal('tambahModal')" class="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100">Batal</button>
+          <button type="submit" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded">Tambah Mahasiswa</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div id="editModal" class="modal fixed inset-0 bg-black bg-opacity-50 z-50 items-center justify-center p-4">
+    <div class="bg-gray-200 rounded-lg w-full max-w-md p-6">
+      <h3 class="text-xl font-semibold mb-6">EDIT MAHASISWA</h3>
+      <form onsubmit="submitEdit(event)">
+        <input type="hidden" id="editId">
+        <div class="mb-4">
+          <label class="block text-sm font-medium mb-1">NAMA</label>
+          <input type="text" id="editNama" required class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary">
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm font-medium mb-1">NPM</label>
+          <input type="text" id="editNpm" required class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary">
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm font-medium mb-1">EMAIL</label>
+          <input type="email" id="editEmail" required class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary">
+        </div>
+        <div class="mb-6">
+          <label class="block text-sm font-medium mb-1">PASSWORD</label>
+          <input type="password" id="editPassword" placeholder="••••••••••••" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary">
+        </div>
+        <div class="flex gap-2 justify-end">
+          <button type="button" onclick="closeModal('editModal')" class="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100">Batal</button>
+          <button type="submit" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded">Edit Mahasiswa</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    let editMode = false;
+    let sidebarOpen = false;
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      sidebarOpen = !sidebarOpen;
+      
+      if (sidebarOpen) {
+        sidebar.classList.remove('-translate-x-full');
+        overlay.classList.remove('hidden');
+      } else {
+        sidebar.classList.add('-translate-x-full');
+        overlay.classList.add('hidden');
+      }
+    }
+
+    function toggleDropdown(id) {
+      const dropdown = document.getElementById(id + '-dropdown');
+      const arrow = document.getElementById(id + '-arrow');
+      dropdown.classList.toggle('hidden');
+      arrow.classList.toggle('rotate-180');
+    }
+
+    function toggleEditMode() {
+      editMode = !editMode;
+      const editCols = document.querySelectorAll('.edit-col');
+      editCols.forEach(col => col.classList.toggle('hidden', !editMode));
+      document.getElementById('editBtn').textContent = editMode ? 'Selesai Edit' : 'Edit Mahasiswa';
+    }
+
+    function openModal(id) {
+      document.getElementById(id).classList.add('show');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('show');
+    }
+
+    function searchTable() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const rows = document.querySelectorAll('#mahasiswaTableBody tr');
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(input) ? '' : 'none';
+      });
+    }
+
+    function editMahasiswa(id, nama, npm, email) {
+      document.getElementById('editId').value = id;
+      document.getElementById('editNama').value = nama;
+      document.getElementById('editNpm').value = npm;
+      document.getElementById('editEmail').value = email;
+      openModal('editModal');
+    }
+
+    function deleteMahasiswa(id) {
+      if (confirm('Apakah Anda yakin ingin menghapus mahasiswa ini?')) {
+        alert('Mahasiswa dengan ID ' + id + ' telah dihapus');
+      }
+    }
+
+    function submitTambah(e) {
+      e.preventDefault();
+      alert('Mahasiswa baru telah ditambahkan');
+      closeModal('tambahModal');
+    }
+
+    function submitEdit(e) {
+      e.preventDefault();
+      alert('Data mahasiswa telah diperbarui');
+      closeModal('editModal');
+    }
+  </script>
+</body>
+</html>
