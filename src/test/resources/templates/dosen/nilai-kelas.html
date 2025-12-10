@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Nilai Kelas')}"></head>
+<body class="bg-white min-h-screen">
+    <!-- Replaced th:replace with inline header -->
+    <header class="bg-sky-400 text-white px-6 py-4 flex items-center justify-between fixed top-0 left-0 right-0 z-40">
+        <div class="flex items-center gap-4">
+            <a th:href="@{/dosen/nilai}" class="p-2 hover:bg-sky-500 rounded-lg transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+            </a>
+            <h1 class="text-xl font-semibold tracking-wide">Nilai - <span th:text="${mataKuliah.namaMatkul}">Mata Kuliah</span></h1>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="w-10 h-10 bg-white rounded-full overflow-hidden">
+                <img src="/placeholder.svg?height=40&width=40" alt="Profile" class="w-full h-full object-cover">
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-24 px-6 pb-8">
+        <div class="flex flex-wrap gap-6 justify-center">
+            <!-- Class Cards -->
+            <a th:each="kelas : ${kelasList}" 
+               th:href="@{/dosen/nilai/kelas/{id}/tugas(id=${kelas.idKelas})}" 
+               class="bg-sky-400 rounded-3xl p-6 text-white text-center hover:bg-sky-500 transition-colors cursor-pointer w-40">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-4xl font-bold" th:text="${kelas.namaKelas}">A</span>
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <rect x="5" y="3" width="14" height="18" rx="2" stroke-width="1.5"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 7h6M9 11h6M9 15h4"/>
+                    </svg>
+                </div>
+                <p class="text-sm font-medium" th:text="${mataKuliah.namaMatkul}">Mata Kuliah</p>
+            </a>
+        </div>
+    </main>
+</body>
+</html>
