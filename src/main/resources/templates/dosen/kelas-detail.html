@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Detail Kelas')}"></head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- Replaced th:replace with inline header -->
+    <header class="bg-sky-400 text-white px-6 py-4 flex items-center justify-between fixed top-0 left-0 right-0 z-40">
+        <div class="flex items-center gap-4">
+            <a th:href="@{/dosen/kelas}" class="p-2 hover:bg-sky-500 rounded-lg transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+            </a>
+            <h1 class="text-xl font-semibold tracking-wide" th:text="${mataKuliah.namaMatkul}">Mata Kuliah</h1>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="w-10 h-10 bg-white rounded-full overflow-hidden">
+                <img src="/placeholder.svg?height=40&width=40" alt="Profile" class="w-full h-full object-cover">
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-20 px-6 pb-8">
+        <p class="text-lg font-semibold text-gray-800 mb-6">Total Kelas : <span th:text="${#lists.size(kelasList)}">0</span></p>
+        
+        <div class="flex flex-wrap gap-6">
+            <!-- Class Cards -->
+            <a th:each="kelas : ${kelasList}" 
+               th:href="@{/dosen/kelas/{id}/tugas(id=${kelas.idKelas})}" 
+               class="bg-sky-400 rounded-3xl p-6 text-white text-center hover:bg-sky-500 transition-colors cursor-pointer w-40">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-4xl font-bold" th:text="${kelas.namaKelas}">A</span>
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                    </svg>
+                </div>
+                <p class="text-sm font-medium" th:text="${mataKuliah.namaMatkul}">Mata Kuliah</p>
+            </a>
+            
+            <!-- Empty state -->
+            <div th:if="${#lists.isEmpty(kelasList)}" class="w-full text-center py-12">
+                <p class="text-gray-500">Belum ada kelas untuk mata kuliah ini</p>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
