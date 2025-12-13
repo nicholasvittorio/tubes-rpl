@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Edit Komponen')}"></head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- Fixed: replaced th:replace fragment with inline header -->
+    <header class="bg-sky-400 text-white px-6 py-4 flex items-center justify-between fixed top-0 left-0 right-0 z-40">
+        <div class="flex items-center gap-4">
+            <a th:href="@{/dosen/kelas/{id}/tugas(id=${kelas.idKelas})}" class="p-2 hover:bg-sky-500 rounded-lg transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+            </a>
+            <h1 class="text-xl font-semibold tracking-wide" th:text="${komponen.namaKomponen}">Edit Komponen</h1>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="w-10 h-10 bg-white rounded-full overflow-hidden">
+                <img src="/placeholder.svg?height=40&width=40" alt="Profile" class="w-full h-full object-cover">
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-20 px-6 pb-8">
+        <div class="max-w-4xl">
+            <!-- Edit Form -->
+            <form th:action="@{/dosen/komponen/{id}/update(id=${komponen.idKomponen})}" method="post" class="space-y-6">
+                <!-- Nama Komponen -->
+                <div>
+                    <label class="block text-lg font-semibold text-gray-800 mb-2">Nama Komponen:</label>
+                    <input type="text" name="namaKomponen" th:value="${komponen.namaKomponen}" required
+                           class="bg-gray-100 rounded-lg p-4 w-full focus:outline-none focus:ring-2 focus:ring-sky-400">
+                </div>
+
+                <!-- Bobot -->
+                <div>
+                    <label class="block text-lg font-semibold text-gray-800 mb-2">Bobot (%):</label>
+                    <input type="number" name="bobot" th:value="${komponen.bobot}" required min="0" max="100" step="0.1"
+                           class="bg-gray-100 rounded-lg p-4 w-32 focus:outline-none focus:ring-2 focus:ring-sky-400">
+                </div>
+
+                <!-- Deskripsi Rubrik -->
+                <div>
+                    <label class="block text-lg font-semibold text-gray-800 mb-2">Deskripsi Rubrik:</label>
+                    <textarea name="deskripsiRubrik" rows="6"
+                              class="bg-gray-100 rounded-lg p-4 w-full resize-none focus:outline-none focus:ring-2 focus:ring-sky-400"
+                              th:text="${komponen.deskripsiRubrik}"></textarea>
+                </div>
+
+                <!-- Info Tugas -->
+                <div class="bg-white rounded-lg p-4 border border-gray-200">
+                    <p class="text-gray-600"><span class="font-medium">Tugas:</span> <span th:text="${tugas.namaTugas}">Tugas</span></p>
+                    <p class="text-gray-600" th:if="${tugas.tanggalSelesai}">
+                        <span class="font-medium">Deadline:</span> 
+                        <span th:text="${#temporals.format(tugas.tanggalSelesai, 'dd MMMM yyyy')}">Deadline</span>
+                    </p>
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex gap-4">
+                    <button type="submit" class="px-6 py-2 bg-sky-400 text-white rounded-full font-medium hover:bg-sky-500 transition-colors">
+                        Simpan Perubahan
+                    </button>
+                    <a th:href="@{/dosen/kelas/{id}/tugas(id=${kelas.idKelas})}" 
+                       class="px-6 py-2 bg-gray-300 text-gray-700 rounded-full font-medium hover:bg-gray-400 transition-colors">
+                        Batal
+                    </a>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+</html>
