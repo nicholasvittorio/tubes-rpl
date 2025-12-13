@@ -14,8 +14,18 @@
             <h1 class="text-xl font-semibold tracking-wide">Kelompok - <span th:text="${kelas.namaKelas}">Kelas</span></h1>
         </div>
         <div class="flex items-center gap-4">
-            <div class="w-10 h-10 bg-white rounded-full overflow-hidden">
-                <img src="/placeholder.svg?height=40&width=40" alt="Profile" class="w-full h-full object-cover">
+            <div class="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center font-semibold text-white"
+                th:classappend="${user != null ? 
+                                (user.peran == 'admin' ? 'bg-red-500' : 
+                                    user.peran == 'dosen' ? 'bg-green-500' : 'bg-blue-500') : 
+                                'bg-gray-500'}">
+                <span th:if="${user != null}" 
+                    th:text="${user.peran == 'admin' ? 'A' : 
+                                user.peran == 'dosen' ? 'D' : 
+                                user.peran == 'mahasiswa' ? 'M' : 'U'}">
+                    U
+                </span>
+                <span th:unless="${user != null}">U</span>
             </div>
         </div>
     </header>
