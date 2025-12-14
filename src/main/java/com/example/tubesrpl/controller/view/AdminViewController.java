@@ -7,9 +7,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin")
@@ -140,6 +142,61 @@ public class AdminViewController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Gagal menghapus pengguna: " + e.getMessage());
         }
+        return "redirect:/admin/pengguna";
+    }
+
+    // Endpoint untuk upload CSV
+    @PostMapping("/pengguna/import-csv")
+    public String importPenggunaFromCsv(@RequestParam("csvFile") MultipartFile file,
+                                         HttpSession session,
+                                         RedirectAttributes redirectAttributes) {
+        if (!isAdmin(session)) {
+            return "redirect:/login";
+        }
+
+        try {
+            // Validate file
+            if (file.isEmpty()) {
+                redirectAttributes.addFlashAttribute("error", "File CSV tidak boleh kosong");
+                return "redirect:/admin/pengguna";
+            }
+
+            if (!file.getOriginalFilename().endsWith(".csv")) {
+                redirectAttributes.addFlashAttribute("error", "File harus berformat CSV");
+                return "redirect:/admin/pengguna";
+            }
+
+            // Process CSV
+            Map<String, Object> result = penggunaService.importFromCsv(file);
+            
+            if ((boolean) result.get("success")) {
+                int successCount = (int) result.get("successCount");
+                int errorCount = (int) result.get("errorCount");
+                
+                // Save dosen/mahasiswa records
+                List<Pengguna> savedUsers = (List<Pengguna>) result.get("savedUsers");
+                for (Pengguna pengguna : savedUsers) {
+                    // This part would need additional CSV column for NIP/NPM
+                    // For now, we'll skip creating dosen/mahasiswa records
+                    // You can extend this based on your CSV format
+                }
+
+                String message = "Berhasil import " + successCount + " pengguna";
+                if (errorCount > 0) {
+                    List<String> errors = (List<String>) result.get("errors");
+                    message += ". " + errorCount + " baris gagal: " + String.join(", ", errors);
+                }
+                
+                redirectAttributes.addFlashAttribute("success", message);
+            } else {
+                List<String> errors = (List<String>) result.get("errors");
+                redirectAttributes.addFlashAttribute("error", "Import gagal: " + String.join(", ", errors));
+            }
+
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Gagal import CSV: " + e.getMessage());
+        }
+
         return "redirect:/admin/pengguna";
     }
 
