@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- Use layout fragment for consistency -->
+<head th:replace="~{fragments/layout :: head('Nilai')}"></head>
+<body class="bg-gray-100 min-h-screen">
+    <div th:replace="~{fragments/layout :: header-with-sidebar('Nilai', 'nilai', 'mahasiswa')}"></div>
+
+    <!-- Main Content -->
+    <main class="pt-20 px-6 pb-8">
+        <div class="space-y-4">
+            <!-- Nilai per Kelas -->
+            <div th:each="kelas : ${kelasList}" class="bg-white rounded-2xl p-6 shadow-sm">
+                <a th:href="@{/mahasiswa/nilai/kelas/{id}(id=${kelas.idKelas})}" class="block hover:bg-gray-50 -m-6 p-6 rounded-2xl transition-colors">
+                    <h3 class="font-semibold text-gray-800" th:text="${kelas.mataKuliah?.namaMatkul ?: kelas.namaKelas}">Nama Mata Kuliah</h3>
+                    <p class="text-sm text-gray-500 mt-1" th:text="'Kelas: ' + ${kelas.namaKelas}">Kelas</p>
+                    <p class="text-sm text-sky-500 mt-2">Klik untuk melihat detail nilai</p>
+                </a>
+            </div>
+            
+            <!-- Empty state -->
+            <div th:if="${#lists.isEmpty(kelasList)}" class="text-center py-12 bg-white rounded-2xl">
+                <p class="text-gray-500">Belum ada nilai</p>
+            </div>
+        </div>
+    </main>
+
+    <script th:replace="~{fragments/layout :: sidebar-script}"></script>
+</body>
+</html>
