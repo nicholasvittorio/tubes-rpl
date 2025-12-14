@@ -17,24 +17,9 @@
 
         <div class="flex items-center justify-between mb-6">
             <h2 class="text-xl font-semibold text-gray-800">Daftar Pengguna</h2>
-<<<<<<< HEAD
             <button type="button" id="btnTambahPengguna" class="bg-sky-500 text-white px-4 py-2 rounded-lg hover:bg-sky-600 transition-colors">
                 + Tambah Pengguna
             </button>
-=======
-            <div class="flex gap-3">
-                <!-- Tambah button untuk upload CSV -->
-                <button type="button" id="btnUploadCsv" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors">
-                    <svg class="w-5 h-5 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 0115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-                    </svg>
-                    Upload CSV
-                </button>
-                <button type="button" id="btnTambahPengguna" class="bg-sky-500 text-white px-4 py-2 rounded-lg hover:bg-sky-600 transition-colors">
-                    + Tambah Pengguna
-                </button>
-            </div>
->>>>>>> temp-save
         </div>
         
         <!-- Search & Filter -->
@@ -113,18 +98,13 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Role</label>
-<<<<<<< HEAD
                         <select name="peran" id="createFormRole" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-sky-500">
-=======
-                        <select name="peran" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-sky-500">
->>>>>>> temp-save
                             <option value="">Pilih Role</option>
                             <option value="admin">Admin</option>
                             <option value="dosen">Dosen</option>
                             <option value="mahasiswa">Mahasiswa</option>
                         </select>
                     </div>
-<<<<<<< HEAD
                     <div id="createFormNipField" class="space-y-4 hidden">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">NIP</label>
@@ -137,8 +117,6 @@
                             <input type="text" name="npm" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-sky-500" placeholder="Masukkan NPM">
                         </div>
                     </div>
-=======
->>>>>>> temp-save
                 </div>
                 <div class="flex justify-end gap-3 mt-6">
                     <button type="button" onclick="closeModal('createModal')" class="px-4 py-2 border rounded-lg hover:bg-gray-50">Batal</button>
@@ -197,64 +175,6 @@
         </div>
     </div>
     
-<<<<<<< HEAD
-=======
-    <!-- Upload CSV Modal -->
-    <div id="uploadCsvModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-        <div class="bg-white rounded-2xl p-6 w-full max-w-2xl mx-4">
-            <h3 class="text-lg font-semibold mb-4">Upload Pengguna via CSV</h3>
-            
-            <!-- Petunjuk Format CSV -->
-            <div class="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                <h4 class="font-semibold text-blue-800 mb-2">Format CSV:</h4>
-                <code class="text-sm bg-white px-2 py-1 rounded block mb-2">
-                    username,password,nama_lengkap,peran,nip_atau_npm
-                </code>
-                <p class="text-sm text-blue-700 mb-2">Contoh:</p>
-                <code class="text-sm bg-white px-2 py-1 rounded block mb-1">
-                    dosen1,password123,Dr. John Doe,dosen,198501012023011001
-                </code>
-                <code class="text-sm bg-white px-2 py-1 rounded block mb-1">
-                    mahasiswa1,password123,Jane Smith,mahasiswa,2301001
-                </code>
-                <code class="text-sm bg-white px-2 py-1 rounded block">
-                    admin1,password123,Admin User,admin,
-                </code>
-                <p class="text-xs text-blue-600 mt-2">
-                    <strong>Catatan:</strong> Peran harus 'admin', 'dosen', atau 'mahasiswa'. 
-                    NIP/NPM wajib untuk dosen dan mahasiswa.
-                </p>
-            </div>
-
-            <!-- Download Template -->
-            <div class="mb-4">
-                <button type="button" id="btnDownloadTemplate" class="text-sky-500 hover:text-sky-700 text-sm font-medium">
-                    <svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                    </svg>
-                    Download Template CSV
-                </button>
-            </div>
-
-            <form id="uploadCsvForm" method="post" action="/admin/pengguna/import-csv" enctype="multipart/form-data">
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Pilih File CSV</label>
-                        <input type="file" name="csvFile" accept=".csv" required 
-                               class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-sky-500">
-                    </div>
-                </div>
-                <div class="flex justify-end gap-3 mt-6">
-                    <button type="button" onclick="closeModal('uploadCsvModal')" 
-                            class="px-4 py-2 border rounded-lg hover:bg-gray-50">Batal</button>
-                    <button type="submit" 
-                            class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">Upload</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    
->>>>>>> temp-save
     <script th:replace="~{fragments/header :: sidebarScript}"></script>
     <script>
         function openModal(id) {
@@ -267,7 +187,6 @@
         }
         
         document.addEventListener('DOMContentLoaded', function() {
-<<<<<<< HEAD
             document.getElementById('createFormRole').addEventListener('change', function() {
                 const role = this.value;
                 const nipField = document.getElementById('createFormNipField');
@@ -283,8 +202,6 @@
                 }
             });
 
-=======
->>>>>>> temp-save
             document.getElementById('btnTambahPengguna').addEventListener('click', function() {
                 openModal('createModal');
             });
@@ -309,38 +226,10 @@
                 });
             });
             
-<<<<<<< HEAD
             document.getElementById('searchInput').addEventListener('keyup', filterTable);
             document.getElementById('filterRole').addEventListener('change', filterTable);
             
             ['createModal', 'editModal', 'deleteModal'].forEach(function(modalId) {
-=======
-            document.getElementById('btnUploadCsv').addEventListener('click', function() {
-                openModal('uploadCsvModal');
-            });
-
-            document.getElementById('btnDownloadTemplate').addEventListener('click', function() {
-                var csvContent = 'username,password,nama_lengkap,peran,nip_atau_npm\n';
-                csvContent += 'dosen1,password123,Dr. John Doe,dosen,198501012023011001\n';
-                csvContent += 'mahasiswa1,password123,Jane Smith,mahasiswa,2301001\n';
-                csvContent += 'admin1,password123,Admin User,admin,\n';
-                
-                var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-                var link = document.createElement('a');
-                var url = URL.createObjectURL(blob);
-                link.setAttribute('href', url);
-                link.setAttribute('download', 'template_pengguna.csv');
-                link.style.visibility = 'hidden';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            });
-            
-            document.getElementById('searchInput').addEventListener('keyup', filterTable);
-            document.getElementById('filterRole').addEventListener('change', filterTable);
-            
-            ['createModal', 'editModal', 'deleteModal', 'uploadCsvModal'].forEach(function(modalId) {
->>>>>>> temp-save
                 document.getElementById(modalId).addEventListener('click', function(e) {
                     if (e.target === this) {
                         closeModal(modalId);
@@ -364,8 +253,4 @@
         }
     </script>
 </body>
-<<<<<<< HEAD
 </html>
-=======
-</html>
->>>>>>> temp-save
