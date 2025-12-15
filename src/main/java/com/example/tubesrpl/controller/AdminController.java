@@ -19,7 +19,7 @@ public class AdminController {
     private final MataKuliahService mataKuliahService;
     private final KelasService kelasService;
 
-    // Pengguna Management
+    // pengguna
     @GetMapping("/pengguna")
     public ResponseEntity<ApiResponse<List<Pengguna>>> getAllPengguna() {
         return ResponseEntity.ok(ApiResponse.success(penggunaService.findAll()));
@@ -47,7 +47,7 @@ public class AdminController {
         return ResponseEntity.ok(ApiResponse.success("Pengguna deleted", null));
     }
 
-    // Mata Kuliah Management
+    // matkul
     @GetMapping("/matakuliah")
     public ResponseEntity<ApiResponse<List<MataKuliah>>> getAllMataKuliah() {
         return ResponseEntity.ok(ApiResponse.success(mataKuliahService.findAll()));
@@ -75,7 +75,7 @@ public class AdminController {
         return ResponseEntity.ok(ApiResponse.success("Mata Kuliah deleted", null));
     }
 
-    // Kelas Management
+    // kelas 
     @GetMapping("/kelas")
     public ResponseEntity<ApiResponse<List<Kelas>>> getAllKelas() {
         return ResponseEntity.ok(ApiResponse.success(kelasService.findAll()));

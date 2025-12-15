@@ -50,7 +50,7 @@ public class AdminViewController {
         return "admin/dashboard";
     }
 
-    // ==================== PENGGUNA CRUD ====================
+    // ==================== PENGGUNA ====================
     @GetMapping("/pengguna")
     public String penggunaList(HttpSession session, Model model) {
         if (!isAdmin(session)) {
@@ -145,7 +145,7 @@ public class AdminViewController {
         return "redirect:/admin/pengguna";
     }
 
-    // Endpoint untuk upload CSV
+    //  upload CSV
     @PostMapping("/pengguna/import-csv")
     public String importPenggunaFromCsv(@RequestParam("csvFile") MultipartFile file,
                                          HttpSession session,
@@ -155,7 +155,7 @@ public class AdminViewController {
         }
 
         try {
-            // Validate file
+            // validasi file
             if (file.isEmpty()) {
                 redirectAttributes.addFlashAttribute("error", "File CSV tidak boleh kosong");
                 return "redirect:/admin/pengguna";
@@ -166,20 +166,11 @@ public class AdminViewController {
                 return "redirect:/admin/pengguna";
             }
 
-            // Process CSV
             Map<String, Object> result = penggunaService.importFromCsv(file);
             
             if ((boolean) result.get("success")) {
                 int successCount = (int) result.get("successCount");
                 int errorCount = (int) result.get("errorCount");
-                
-                // Save dosen/mahasiswa records
-                List<Pengguna> savedUsers = (List<Pengguna>) result.get("savedUsers");
-                for (Pengguna pengguna : savedUsers) {
-                    // This part would need additional CSV column for NIP/NPM
-                    // For now, we'll skip creating dosen/mahasiswa records
-                    // You can extend this based on your CSV format
-                }
 
                 String message = "Berhasil import " + successCount + " pengguna";
                 if (errorCount > 0) {

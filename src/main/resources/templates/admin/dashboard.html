@@ -9,9 +9,8 @@
     <main class="pt-20 px-6 pb-8">
         <h2 class="text-xl font-semibold text-gray-800 mb-6">Overview</h2>
         
-        <!-- Added 5th card for Total Kelas -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-            <!-- Total Pengguna Card -->
+            <!-- Total Pengguna -->
             <div class="bg-sky-400 rounded-3xl p-6 text-white">
                 <div class="mb-4">
                     <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -22,7 +21,7 @@
                 <p class="text-4xl font-bold" th:text="${totalPengguna}">0</p>
             </div>
             
-            <!-- Total Dosen Card -->
+            <!-- Total Dosen -->
             <div class="bg-emerald-400 rounded-3xl p-6 text-white">
                 <div class="mb-4">
                     <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -33,7 +32,7 @@
                 <p class="text-4xl font-bold" th:text="${totalDosen}">0</p>
             </div>
             
-            <!-- Total Mahasiswa Card -->
+            <!-- Total Mahasiswa -->
             <div class="bg-amber-400 rounded-3xl p-6 text-white">
                 <div class="mb-4">
                     <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -45,7 +44,7 @@
                 <p class="text-4xl font-bold" th:text="${totalMahasiswa}">0</p>
             </div>
             
-            <!-- Total Mata Kuliah Card -->
+            <!-- Total Mata Kuliah -->
             <div class="bg-rose-400 rounded-3xl p-6 text-white">
                 <div class="mb-4">
                     <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -56,7 +55,7 @@
                 <p class="text-4xl font-bold" th:text="${totalMataKuliah}">0</p>
             </div>
 
-            <!-- Total Kelas Card -->
+            <!-- Total Kelas -->
             <div class="bg-purple-400 rounded-3xl p-6 text-white">
                 <div class="mb-4">
                     <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -68,7 +67,7 @@
             </div>
         </div>
 
-        <!-- Quick Actions Section -->
+        <!-- Quick Actions -->
         <h2 class="text-xl font-semibold text-gray-800 mt-10 mb-6">Aksi Cepat</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <a href="/admin/pengguna" class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
